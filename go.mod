@@ -2,11 +2,14 @@ module github.com/dell/csi-powerstore
 
 go 1.16
 
+replace github.com/dell/gopowerstore v1.5.0 => ../gopowerstore
+
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.0.1 // indirect
 	github.com/akutz/gosync v0.1.0
 	github.com/container-storage-interface/spec v1.4.0
 	github.com/dell/dell-csi-extensions/replication v1.0.0
+	github.com/dell/dell-csi-extensions/volumeGroupSnapshot v0.2.0
 	github.com/dell/gobrick v1.2.0
 	github.com/dell/gocsi v1.3.1
 	github.com/dell/gofsutil v1.6.0
