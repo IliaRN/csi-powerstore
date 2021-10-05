@@ -30,7 +30,7 @@ import (
 	"github.com/dell/csi-powerstore/pkg/array"
 	"github.com/dell/csi-powerstore/pkg/common"
 	"github.com/dell/csi-powerstore/pkg/common/fs"
-	csiext "github.com/dell/dell-csi-extensions/replication"
+	volumeGroupSnapshot "github.com/dell/dell-csi-extensions/volumeGroupSnapshot"
 	csictx "github.com/dell/gocsi/context"
 	"github.com/dell/gopowerstore"
 	"github.com/golang/protobuf/ptypes/wrappers"
@@ -966,19 +966,21 @@ func (s *Service) ControllerGetVolume(ctx context.Context, request *csi.Controll
 
 // RegisterAdditionalServers registers replication extension
 func (s *Service) RegisterAdditionalServers(server *grpc.Server) {
-	csiext.RegisterReplicationServer(server, s)
+	// TODO: Registering both replication and volumeGroupSnapshots is not possible for now since both of them requires ProbeController to be implemented with a different signatures and hence commented replication to test vg-snapshot
+	// csiext.RegisterReplicationServer(server, s)
+	volumeGroupSnapshot.RegisterVolumeGroupSnapshotServer(server, s)
 }
 
-func (s *Service) ProbeController(ctx context.Context, req *csiext.ProbeControllerRequest) (*csiext.ProbeControllerResponse, error) {
+func (s *Service) ProbeController(ctx context.Context, req *volumeGroupSnapshot.ProbeControllerRequest) (*volumeGroupSnapshot.ProbeControllerResponse, error) {
 	ready := new(wrappers.BoolValue)
 	ready.Value = true
-	rep := new(csiext.ProbeControllerResponse)
-	rep.Ready = ready
+	rep := new(volumeGroupSnapshot.ProbeControllerResponse)
+	// rep.Ready = ready
 	rep.Name = common.Name
 	rep.VendorVersion = core.SemVer
 	rep.Manifest = common.Manifest
 
-	log.Debug(fmt.Sprintf("ProbeController returning: %v", rep.Ready.GetValue()))
+	// log.Debug(fmt.Sprintf("ProbeController returning: %v", rep.Ready.GetValue()))
 	return rep, nil
 }
 

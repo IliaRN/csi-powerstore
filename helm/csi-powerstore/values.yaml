@@ -39,7 +39,7 @@ controller:
   #  To enable/disable Volume group snapshot feature
   vgsnapshot:
     enabled: true
-    image: dellemc/vgsnapshot:1.0
+    image: dellemc/csi-volumegroup-snapshotter:v0.2.0
 
   # controllerCount: defines the number of csi-powerscale controller pods to deploy to
   # the Kubernetes release.
